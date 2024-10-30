@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class DeliveriesConfig(AppConfig):
+class SuppliersConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'deliveries'
+    name = 'suppliers'
