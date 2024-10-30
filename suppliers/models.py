@@ -15,7 +15,7 @@ class Supplier(models.Model):
     created_at = models.DateTimeField(verbose_name='дата создания')
     level = models.IntegerField(choices=LEVEL_CHOICES, default=0, verbose_name='уровень в иерархии')
 
-    supplier = models.ForeignKey('self', on_delete=models.CASCADE, verbose_name='поставщик', **NULLABLE)
+    supplier_link = models.ForeignKey('self', on_delete=models.CASCADE, verbose_name='поставщик', **NULLABLE)
 
     def __str__(self):
         return f"supplier {self.name}"
