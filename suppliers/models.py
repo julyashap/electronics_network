@@ -11,6 +11,13 @@ class Supplier(models.Model):
     ]
 
     name = models.CharField(max_length=100, verbose_name='название')
+
+    email = models.EmailField(unique=True, verbose_name='email', **NULLABLE)
+    country = models.CharField(max_length=100, verbose_name='страна', **NULLABLE)
+    city = models.CharField(max_length=100, verbose_name='город', **NULLABLE)
+    street = models.CharField(max_length=250, verbose_name='улица', **NULLABLE)
+    house_number = models.PositiveIntegerField(verbose_name='номер дома', **NULLABLE)
+
     debt_to_supplier = models.DecimalField(max_digits=12, decimal_places=2, verbose_name='задолженность')
     created_at = models.DateTimeField(verbose_name='дата создания')
     level = models.IntegerField(choices=LEVEL_CHOICES, default=0, verbose_name='уровень в иерархии')
@@ -38,20 +45,3 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'
-
-
-class Contact(models.Model):
-    email = models.EmailField(unique=True, verbose_name='email')
-    country = models.CharField(max_length=100, verbose_name='страна')
-    city = models.CharField(max_length=100, verbose_name='город')
-    street = models.CharField(max_length=250, verbose_name='улица')
-    house_number = models.PositiveIntegerField(verbose_name='номер дома')
-
-    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE, verbose_name='поставщик', related_name='contacts')
-
-    def __str__(self):
-        return f"contact {self.email}"
-
-    class Meta:
-        verbose_name = 'контакт'
-        verbose_name_plural = 'контакты'
