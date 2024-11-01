@@ -1,8 +1,8 @@
 from rest_framework import generics
 from config import settings
-from suppliers.models import Supplier
+from suppliers.models import Supplier, Product
 from suppliers.paginators import SuppliersPagination
-from suppliers.serializers import SupplierSerializer, SupplierReadSerializer, SupplierUpdateSerializer
+from suppliers.serializers import SupplierSerializer, SupplierUpdateSerializer, ProductSerializer
 from rest_framework.filters import SearchFilter
 
 
@@ -30,12 +30,12 @@ class SupplierUpdateAPIView(generics.UpdateAPIView):
 
 class SupplierRetrieveAPIView(generics.RetrieveAPIView):
     queryset = Supplier.objects.all()
-    serializer_class = SupplierReadSerializer
+    serializer_class = SupplierSerializer
 
 
 class SupplierListAPIView(generics.ListAPIView):
     queryset = Supplier.objects.all()
-    serializer_class = SupplierReadSerializer
+    serializer_class = SupplierSerializer
 
     filter_backends = (SearchFilter,)
     search_fields = ['country']
@@ -46,3 +46,18 @@ class SupplierListAPIView(generics.ListAPIView):
 class SupplierDestroyAPIView(generics.DestroyAPIView):
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
+
+
+class ProductCreateAPIView(generics.CreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
+class ProductUpdateAPIView(generics.UpdateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
+class ProductDestroyAPIView(generics.DestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
