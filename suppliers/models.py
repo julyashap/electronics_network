@@ -18,7 +18,7 @@ class Supplier(models.Model):
     street = models.CharField(max_length=250, verbose_name='улица', **NULLABLE)
     house_number = models.PositiveIntegerField(verbose_name='номер дома', **NULLABLE)
 
-    debt_to_supplier = models.DecimalField(max_digits=12, decimal_places=2, verbose_name='задолженность')
+    debt_to_supplier = models.DecimalField(max_digits=12, decimal_places=2, default=0.00, verbose_name='задолженность')
     created_at = models.DateTimeField(verbose_name='дата создания')
     level = models.IntegerField(choices=LEVEL_CHOICES, default=0, verbose_name='уровень в иерархии')
 
