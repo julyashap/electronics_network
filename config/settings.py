@@ -117,7 +117,5 @@ if DEBUG:
         'REFRESH_TOKEN_LIFETIME': timedelta(days=90),
     }
 
-CODEPHRASES = os.getenv('CODEPHRASES').split(',')
-
 ZONE = pytz.timezone(TIME_ZONE)
 NOW = datetime.now(ZONE)
