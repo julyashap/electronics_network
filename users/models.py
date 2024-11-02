@@ -3,6 +3,8 @@ from django.db import models
 
 
 class User(AbstractUser):
+    """Класс модели пользователя в системе"""
+
     username = None
 
     email = models.EmailField(unique=True, verbose_name='email')
@@ -12,6 +14,8 @@ class User(AbstractUser):
 
 
 class CodePhrase(models.Model):
+    """Класс модели кодовых фраз для проверки прав доступа в системе"""
+
     company_name = models.CharField(max_length=100, verbose_name='название компании')
     codephrase = models.CharField(max_length=10, verbose_name='кодовая фраза')
 

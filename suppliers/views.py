@@ -7,6 +7,8 @@ from rest_framework.filters import SearchFilter
 
 
 class SupplierCreateAPIView(generics.CreateAPIView):
+    """Представление для создания объекта модели Supplier"""
+
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
 
@@ -18,6 +20,8 @@ class SupplierCreateAPIView(generics.CreateAPIView):
 
 
 class SupplierUpdateAPIView(generics.UpdateAPIView):
+    """Представление для обновления объекта модели Supplier"""
+
     queryset = Supplier.objects.all()
     serializer_class = SupplierUpdateSerializer
 
@@ -29,11 +33,15 @@ class SupplierUpdateAPIView(generics.UpdateAPIView):
 
 
 class SupplierRetrieveAPIView(generics.RetrieveAPIView):
+    """Представление для просмотра объекта модели Supplier"""
+
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
 
 
 class SupplierListAPIView(generics.ListAPIView):
+    """Представление для просмотра списка объектов модели Supplier"""
+
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
 
@@ -44,20 +52,28 @@ class SupplierListAPIView(generics.ListAPIView):
 
 
 class SupplierDestroyAPIView(generics.DestroyAPIView):
+    """Представление для удаления объекта модели Supplier"""
+
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
 
 
 class ProductCreateAPIView(generics.CreateAPIView):
+    """Представление для создания объекта модели Product"""
+
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
 
 class ProductUpdateAPIView(generics.UpdateAPIView):
+    """Представление для обновления объекта модели Product"""
+
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
 
 class ProductDestroyAPIView(generics.DestroyAPIView):
+    """Представление для удаления объекта модели Product"""
+
     queryset = Product.objects.all()
     serializer_class = ProductSerializer

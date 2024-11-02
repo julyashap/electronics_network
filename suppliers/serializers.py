@@ -3,6 +3,8 @@ from suppliers.models import Supplier, Product
 
 
 class ProductSupplierSerializer(serializers.ModelSerializer):
+    """Класс сериализатора объектов модели Product для использования в сериализаторах модели Supplier"""
+
     class Meta:
         model = Product
         fields = ('pk', 'name', 'model', 'realized_at',)
@@ -10,6 +12,8 @@ class ProductSupplierSerializer(serializers.ModelSerializer):
 
 
 class SupplierSerializer(serializers.ModelSerializer):
+    """Класс сериализатора объектов модели Supplier"""
+
     products = ProductSupplierSerializer(many=True, required=True)
 
     class Meta:
@@ -42,6 +46,8 @@ class SupplierSerializer(serializers.ModelSerializer):
 
 
 class SupplierUpdateSerializer(serializers.ModelSerializer):
+    """Класс сериализатора объектов модели Supplier при их обновлении"""
+
     class Meta:
         model = Supplier
         fields = (
@@ -61,6 +67,8 @@ class SupplierUpdateSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    """Класс сериализатора объектов модели Product"""
+
     class Meta:
         model = Product
         fields = ('pk', 'name', 'model', 'realized_at', 'supplier',)
