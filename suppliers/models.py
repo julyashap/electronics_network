@@ -4,6 +4,8 @@ NULLABLE = {'null': True, 'blank': True}
 
 
 class Supplier(models.Model):
+    """Класс модели поставщика в системе"""
+
     LEVEL_CHOICES = [
         (0, 'Завод'),
         (1, 'Розничная сеть / Индивидуальный предприниматель'),
@@ -33,6 +35,8 @@ class Supplier(models.Model):
 
 
 class Product(models.Model):
+    """Класс модели продуктов поставщика в системе"""
+
     name = models.CharField(max_length=100, verbose_name='название')
     model = models.CharField(max_length=250, verbose_name='модель')
     realized_at = models.DateTimeField(verbose_name='дата выхода')

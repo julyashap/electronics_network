@@ -6,6 +6,8 @@ from users.models import User
 
 
 class SupplierAPITestCase(APITestCase):
+    """Класс тестирования представлений модели Supplier"""
+
     def setUp(self):
         self.user = User.objects.create(email='user@test.com', password='test_password')
 
@@ -128,6 +130,8 @@ class SupplierAPITestCase(APITestCase):
 
 
 class ProductAPITestCase(APITestCase):
+    """Класс тестирования представлений модели Product"""
+
     def setUp(self):
         self.user = User.objects.create(email='user@test.com', password='test_password')
 
