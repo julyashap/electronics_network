@@ -1,6 +1,8 @@
 import os
 from datetime import timedelta
 from pathlib import Path
+from datetime import datetime
+import pytz
 from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -10,10 +12,10 @@ load_dotenv(dotenv_path=dot_env)
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-if os.getenv('DEBUG') == 'True':
-    DEBUG = True
-else:
+if os.getenv('DEBUG') == 'False':
     DEBUG = False
+else:
+    DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -29,7 +31,6 @@ INSTALLED_APPS = [
     'suppliers',
 
     'rest_framework',
-    'django_filters',
     'drf_yasg',
 ]
 
@@ -115,3 +116,8 @@ if DEBUG:
         'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
         'REFRESH_TOKEN_LIFETIME': timedelta(days=90),
     }
+
+CODEPHRASES = os.getenv('CODEPHRASES').split(',')
+
+ZONE = pytz.timezone(TIME_ZONE)
+NOW = datetime.now(ZONE)
