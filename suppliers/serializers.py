@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from suppliers.models import Supplier, Product
+from suppliers.validators import SupplierLinkValidator, ProductSupplierValidator
 
 
 class ProductSupplierSerializer(serializers.ModelSerializer):
@@ -33,6 +34,7 @@ class SupplierSerializer(serializers.ModelSerializer):
             'products',
         )
         read_only_fields = ['pk', 'level', 'created_at']
+        validators = [SupplierLinkValidator()]
 
     def create(self, validated_data):
         products = validated_data.pop('products')
@@ -64,6 +66,21 @@ class SupplierUpdateSerializer(serializers.ModelSerializer):
             'created_at',
         )
         read_only_fields = ['pk', 'level', 'created_at', 'debt_to_supplier']
+        validators = [SupplierLinkValidator()]
+
+
+class ProductCreateSerializer(serializers.ModelSerializer):
+    """Класс сериализатора для создания объектов модели Product"""
+
+    class Meta:
+        model = Product
+        fields = ('pk', 'name', 'model', 'realized_at', 'supplier',)
+        read_only_fields = ['pk']
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.get('context').get('request')
+        self.fields['supplier'].validators.append(ProductSupplierValidator(self.request.user))
+        super().__init__(*args, **kwargs)
 
 
 class ProductSerializer(serializers.ModelSerializer):
