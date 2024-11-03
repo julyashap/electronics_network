@@ -1,4 +1,5 @@
 from django.db import models
+from config import settings
 
 NULLABLE = {'null': True, 'blank': True}
 
@@ -25,6 +26,7 @@ class Supplier(models.Model):
     level = models.IntegerField(choices=LEVEL_CHOICES, default=0, verbose_name='уровень в иерархии')
 
     supplier_link = models.ForeignKey('self', on_delete=models.CASCADE, verbose_name='поставщик', **NULLABLE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='владелец', **NULLABLE)
 
     def __str__(self):
         return f"supplier {self.name}"
