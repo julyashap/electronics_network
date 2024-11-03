@@ -2,6 +2,8 @@ from rest_framework.exceptions import ValidationError
 
 
 class SupplierLinkValidator:
+    """Класс валидатора поля supplier_link у модели Supplier"""
+
     def __call__(self, value):
         supplier = dict(value).get('supplier_link')
 
@@ -10,6 +12,8 @@ class SupplierLinkValidator:
 
 
 class ProductSupplierValidator:
+    """Класс валидатора поля supplier у модели Product"""
+
     def __init__(self, user):
         self.user = user
 
