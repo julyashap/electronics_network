@@ -12,13 +12,16 @@ suppliers\apps.py                                                               
 suppliers\migrations\0001_initial.py                                                      6      0   100%
 suppliers\migrations\0002_supplier_city_supplier_country_supplier_email_and_more.py       4      0   100%
 suppliers\migrations\0003_alter_supplier_debt_to_supplier.py                              4      0   100%
+suppliers\migrations\0004_supplier_user.py                                                6      0   100%
 suppliers\migrations\__init__.py                                                          0      0   100%
-suppliers\models.py                                                                      29      2    93%
+suppliers\models.py                                                                      31      2    94%
 suppliers\paginators.py                                                                   5      0   100%
-suppliers\serializers.py                                                                 29      0   100%
-suppliers\tests.py                                                                       78      0   100%
+suppliers\permissions.py                                                                  7      0   100%
+suppliers\serializers.py                                                                 41      0   100%
+suppliers\tests.py                                                                       98      0   100%
 suppliers\urls.py                                                                         5      0   100%
-suppliers\views.py                                                                       43      1    98%
+suppliers\validators.py                                                                  12      0   100%
+suppliers\views.py                                                                       49      1    98%
 users\__init__.py                                                                         0      0   100%
 users\admin.py                                                                           10      0   100%
 users\apps.py                                                                             4      0   100%
@@ -32,4 +35,4 @@ users\tests.py                                                                  
 users\urls.py                                                                             6      0   100%
 users\views.py                                                                           44      1    98%
 ---------------------------------------------------------------------------------------------------------
-TOTAL                                                                                   432     18    96%
+TOTAL                                                                                   497     18    96%
