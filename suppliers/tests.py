@@ -10,6 +10,7 @@ class SupplierAPITestCase(APITestCase):
 
     def setUp(self):
         self.user = User.objects.create(email='user@test.com', password='test_password')
+        self.another_user = User.objects.create(email='another_user@test.com', password='test_password')
 
         self.supplier = Supplier.objects.create(
             name='test_supplier',
@@ -18,7 +19,8 @@ class SupplierAPITestCase(APITestCase):
             city='test_city',
             street='test_street',
             house_number=35,
-            created_at='2024-10-31 10:00:00'
+            created_at='2024-10-31 10:00:00',
+            user=self.user
         )
 
     def test_create_supplier(self):
@@ -68,6 +70,29 @@ class SupplierAPITestCase(APITestCase):
             ]
         }
 
+        supplier_data_level_3 = {
+            'name': 'test_supplier_3',
+            'email': 'supplier_3@example.com',
+            'country': 'test_country_3',
+            'city': 'test_city_3',
+            'street': 'test_street_3',
+            'house_number': 15,
+            'debt_to_supplier': 11026.79,
+            'supplier_link': self.supplier.pk + 2,
+            'products': [
+                {
+                    'name': 'product_1',
+                    'model': 'model_a',
+                    'realized_at': '2023-10-01 12:00'
+                },
+                {
+                    'name': 'product_2',
+                    'model': 'model_b',
+                    'realized_at': '2023-10-02 23:54:00'
+                }
+            ]
+        }
+
         self.client.force_authenticate(user=self.user)
 
         response = self.client.post(reverse('suppliers:supplier_create'), data=supplier_data_level_1, format='json')
@@ -82,12 +107,22 @@ class SupplierAPITestCase(APITestCase):
         self.assertEqual(Product.objects.count(), 4)
         self.assertEqual(response.json().get('level'), 2)
 
-    def test_retrieve_supplier(self):
+        response = self.client.post(reverse('suppliers:supplier_create'), data=supplier_data_level_3, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data, {"supplier_link": ["Вы не можете заказывать товары у этого поставщика!"]})
+
+    def test_retrieve_supplier_owner(self):
         self.client.force_authenticate(user=self.user)
 
         response = self.client.get(reverse('suppliers:supplier_retrieve', args=[self.supplier.pk]))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['name'], self.supplier.name)
+
+    def test_retrieve_supplier_not_owner(self):
+        self.client.force_authenticate(user=self.another_user)
+
+        response = self.client.get(reverse('suppliers:supplier_retrieve', args=[self.supplier.pk]))
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_list_supplier(self):
         self.client.force_authenticate(user=self.user)
@@ -134,6 +169,7 @@ class ProductAPITestCase(APITestCase):
 
     def setUp(self):
         self.user = User.objects.create(email='user@test.com', password='test_password')
+        self.another_user = User.objects.create(email='another_user@test.com', password='test_password')
 
         self.supplier = Supplier.objects.create(
             name='test_supplier',
@@ -142,7 +178,8 @@ class ProductAPITestCase(APITestCase):
             city='test_city',
             street='test_street',
             house_number=35,
-            created_at='2024-10-31 10:00:00'
+            created_at='2024-10-31 10:00:00',
+            user=self.user
         )
 
         self.product = Product.objects.create(
@@ -152,7 +189,7 @@ class ProductAPITestCase(APITestCase):
             supplier=self.supplier
         )
 
-    def test_create_product(self):
+    def test_create_product_supplier_owner(self):
         self.client.force_authenticate(user=self.user)
 
         product_data = {
@@ -165,6 +202,20 @@ class ProductAPITestCase(APITestCase):
         response = self.client.post(reverse('suppliers:product_create'), product_data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Product.objects.count(), 2)
+
+    def test_create_product_not_supplier_owner(self):
+        self.client.force_authenticate(user=self.another_user)
+
+        product_data = {
+            'name': 'new_product',
+            'model': 'model_c',
+            'realized_at': '2023-10-03',
+            'supplier': self.supplier.pk
+        }
+
+        response = self.client.post(reverse('suppliers:product_create'), product_data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data, {"supplier": ["Вы не можете создавать продукты другого поставщика!"]})
 
     def test_update_product(self):
         self.client.force_authenticate(user=self.user)
@@ -181,9 +232,15 @@ class ProductAPITestCase(APITestCase):
         self.product.refresh_from_db()
         self.assertEqual(self.product.name, 'test_product_updated')
 
-    def test_destroy_product(self):
+    def test_destroy_product_owner(self):
         self.client.force_authenticate(user=self.user)
 
         response = self.client.delete(reverse('suppliers:product_destroy', args=[self.product.pk]))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Product.objects.count(), 0)
+
+    def test_destroy_product_not_owner(self):
+        self.client.force_authenticate(user=self.another_user)
+
+        response = self.client.delete(reverse('suppliers:product_destroy', args=[self.product.pk]))
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)

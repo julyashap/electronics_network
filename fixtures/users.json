@@ -1,0 +1,46 @@
+[
+  {
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$870000$LaDp6Zi1bG0mXSLnnRwpxU$VfDvirKT3q89JDVr4qMHRgusmgqXjBGln7gyp0pjen4=",
+      "last_login": "2024-11-03T10:54:45.402Z",
+      "is_superuser": true,
+      "first_name": "Julya",
+      "last_name": "Shapaeva",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2024-11-03T10:48:38.469Z",
+      "email": "admin@admin.ru",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$870000$StYAuYpzTXG0aWVNC0pzBp$ODEkuRvTD1nNY219Ign8y/shdKaLtbmzVDCV3DpbUcc=",
+      "last_login": "2024-11-03T10:53:52.477Z",
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2024-11-03T10:50:48Z",
+      "email": "moderator@mod.ru",
+      "groups": [
+        1
+      ],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.codephrase",
+    "pk": 1,
+    "fields": {
+      "company_name": "Test Company",
+      "codephrase": "tccph"
+    }
+  }
+]

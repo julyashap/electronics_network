@@ -1,0 +1,19 @@
+[
+  {
+    "model": "suppliers.supplier",
+    "pk": 1,
+    "fields": {
+      "name": "Test Company",
+      "email": "test_company@email.ru",
+      "country": "Test Country",
+      "city": "Test City",
+      "street": "Test Street",
+      "house_number": 15,
+      "debt_to_supplier": "0.00",
+      "created_at": "2024-11-03T10:53:11Z",
+      "level": 0,
+      "supplier_link": null,
+      "user": 1
+    }
+  }
+]
