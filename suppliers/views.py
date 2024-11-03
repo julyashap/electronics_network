@@ -2,7 +2,9 @@ from rest_framework import generics
 from config import settings
 from suppliers.models import Supplier, Product
 from suppliers.paginators import SuppliersPagination
-from suppliers.serializers import SupplierSerializer, SupplierUpdateSerializer, ProductSerializer
+from suppliers.permissions import IsOwnerSupplier, IsOwnerProduct
+from suppliers.serializers import SupplierSerializer, SupplierUpdateSerializer, ProductSerializer, \
+    ProductCreateSerializer
 from rest_framework.filters import SearchFilter
 
 
@@ -13,7 +15,7 @@ class SupplierCreateAPIView(generics.CreateAPIView):
     serializer_class = SupplierSerializer
 
     def perform_create(self, serializer):
-        supplier = serializer.save(created_at=settings.NOW)
+        supplier = serializer.save(created_at=settings.NOW, user=self.request.user)
         if supplier.supplier_link:
             supplier.level = supplier.supplier_link.level + 1
         supplier.save()
@@ -24,6 +26,7 @@ class SupplierUpdateAPIView(generics.UpdateAPIView):
 
     queryset = Supplier.objects.all()
     serializer_class = SupplierUpdateSerializer
+    permission_classes = [IsOwnerSupplier]
 
     def perform_update(self, serializer):
         supplier = serializer.save()
@@ -37,6 +40,7 @@ class SupplierRetrieveAPIView(generics.RetrieveAPIView):
 
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
+    permission_classes = [IsOwnerSupplier]
 
 
 class SupplierListAPIView(generics.ListAPIView):
@@ -56,13 +60,14 @@ class SupplierDestroyAPIView(generics.DestroyAPIView):
 
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
+    permission_classes = [IsOwnerSupplier]
 
 
 class ProductCreateAPIView(generics.CreateAPIView):
     """Представление для создания объекта модели Product"""
 
     queryset = Product.objects.all()
-    serializer_class = ProductSerializer
+    serializer_class = ProductCreateSerializer
 
 
 class ProductUpdateAPIView(generics.UpdateAPIView):
@@ -70,6 +75,7 @@ class ProductUpdateAPIView(generics.UpdateAPIView):
 
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    permission_classes = [IsOwnerProduct]
 
 
 class ProductDestroyAPIView(generics.DestroyAPIView):
@@ -77,3 +83,4 @@ class ProductDestroyAPIView(generics.DestroyAPIView):
 
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    permission_classes = [IsOwnerProduct]
